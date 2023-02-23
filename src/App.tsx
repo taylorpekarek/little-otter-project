@@ -54,10 +54,10 @@ function App() {
         )
       }
 
-      { 
-        sessionData.map((item: SessionInfo) => 
-          <SessionInfoCard key={item.providerId} session={item}></SessionInfoCard>
-        ) 
+      {
+        !loading && (
+          <SessionInfoCard sessionsList={sessionData}></SessionInfoCard>
+        )
       }
     </div>
   );

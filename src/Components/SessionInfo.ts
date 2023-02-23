@@ -26,5 +26,12 @@ export class SessionInfo {
       this.gender = json.gender;
       this.distance = json.distance;
     }
-  }
+}
+
+export interface SessionDayInfo {
+    numberOfSessions: number;
+    avgSessionLength: number;
+    avgPatiendTravelDistance: number;
+    avgPatientAge: number;
+}
   

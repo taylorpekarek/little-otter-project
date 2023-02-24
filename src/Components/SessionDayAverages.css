@@ -1,0 +1,16 @@
+.session-stat-container {
+    display: flex;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    color: #F8F0E3;
+    margin-bottom: 10px;
+}
+
+.session-label {
+    max-width: 80%;
+}
+
+.session-stat {
+    margin-left: auto; 
+}

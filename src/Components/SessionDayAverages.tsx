@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react';
-import { SessionDayInfo, SessionInfo } from './SessionInfo';
+import './SessionDayAverages.css';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import { SessionDayInfo, SessionInfo } from '../API/SessionInfo';
 
 interface SessionDayAveragesProps {
   daySessions: SessionInfo[];
@@ -7,7 +11,6 @@ interface SessionDayAveragesProps {
 }
 
 function SessionDayAverages({ daySessions, patientDaySessions }: SessionDayAveragesProps) {
-  const sessionDate = daySessions[0].startTime.toLocaleDateString();
   const [dayToDayAvgs, setdayToDayAvgs] = React.useState<SessionDayInfo>({
     sessionDay: '',
     numberOfSessions: 0,
@@ -17,24 +20,47 @@ function SessionDayAverages({ daySessions, patientDaySessions }: SessionDayAvera
   });
 
   useEffect(() => {
-    if(dayToDayAvgs.sessionDay !== sessionDate && daySessions.length !== 0) {
+    if(daySessions.length !== 0) {
       setdayToDayAvgs({
-        sessionDay: sessionDate,
+        sessionDay: daySessions[0].startTime.toLocaleDateString(),
         numberOfSessions: daySessions.length,
         avgSessionLength: Math.round(daySessions.reduce((total, next) => total + next.sessionDuration, 0) / daySessions.length),
         avgPatientTravelDistance: Math.round(patientDaySessions.reduce((total, next) => total + next.distance, 0) / patientDaySessions.length),
         avgPatientAge: Math.round(patientDaySessions.reduce((total, next) =>  total + (next.startTime.getFullYear() - next.birthYear), 0) / patientDaySessions.length)
       });
     }
-  }, [dayToDayAvgs]);
+  }, [dayToDayAvgs, daySessions, patientDaySessions]);
 
   return (
-    <div>
-      <p>Number of sessions: {dayToDayAvgs.numberOfSessions}</p>
-      <p>Average session length: {dayToDayAvgs.avgSessionLength}</p>
-      <p>Average patient travel distance: {dayToDayAvgs.avgPatientTravelDistance}</p>
-      <p>Average patient age: {dayToDayAvgs.avgPatientAge}</p>
-    </div>
+    <Card variant="outlined" sx={{ maxWidth: 400 }}>
+      <CardHeader 
+        title={'Sessions on ' + dayToDayAvgs.sessionDay} 
+        align='center' 
+        titleTypographyProps={{ color: "white", fontWeight: 600, }}
+      >
+      </CardHeader>
+      <CardContent>
+        <div className="session-stat-container">
+          <div className="session-label">Number of sessions</div>
+          <div className="session-stat">{dayToDayAvgs.numberOfSessions}</div>
+        </div>
+        <hr></hr>
+        <div className="session-stat-container">
+          <div className="session-label">Average session length</div>
+          <div className="session-stat">{dayToDayAvgs.avgSessionLength}</div>
+        </div>
+        <hr></hr>
+        <div className="session-stat-container">
+          <div className="session-label">Average patient travel distance</div>
+          <div className="session-stat">{dayToDayAvgs.avgPatientTravelDistance}</div>
+        </div>
+        <hr></hr>
+        <div className="session-stat-container">
+          <div className="session-label">Average patient age</div>
+          <div className="session-stat">{dayToDayAvgs.avgPatientAge}</div>
+        </div>
+      </CardContent>
+    </Card>
   );
 
 

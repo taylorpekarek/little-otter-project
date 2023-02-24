@@ -1,4 +1,4 @@
-import { SessionInfo } from "../Components/SessionInfo";
+import { SessionInfo } from "./SessionInfo";
 
 function parseJSON(response: Response) {
   return response.json();

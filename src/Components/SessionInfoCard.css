@@ -1,0 +1,9 @@
+.selector-width {
+    min-width: 160px;
+    margin: 10px;
+}
+
+.selector-container {
+    display: flex;
+    margin: 20px 0;
+}

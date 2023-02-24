@@ -1,17 +1,27 @@
 import * as React from 'react';
+import './SessionInfoCard.css';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import { SessionInfo } from "./SessionInfo";
+import { SessionInfo } from "../API/SessionInfo";
 import SessionDayAverages from "./SessionDayAverages";
 import { useEffect } from 'react';
 
 export interface SessionInfoCardProps {
   sessionsList: SessionInfo[];
 }
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: 250,
+      backgroundColor: "white"
+    },
+  },
+};
 
 function SessionInfoCard({ sessionsList }: SessionInfoCardProps) {
   const [sessionDate, setSessionDate] = React.useState('');
@@ -27,34 +37,36 @@ function SessionInfoCard({ sessionsList }: SessionInfoCardProps) {
 
   useEffect(() => {
     setSelectedDaySessions(getSessionsFromSelectedDay(sessionsList, sessionDate));
-  }, [sessionDate]);
+  }, [sessionDate, sessionsList]);
 
   useEffect(() => {
     setSelectedDayPatientSessions(getPatientSessionsFromSelectedDay(selectedDaySessions));
-  }, [selectedDaySessions]);
+  }, [selectedDaySessions, selectedDayPatientSessions]);
 
 
     return (
       <div>
-
-        <Box sx={{ maxWidth: 150 }}>
-          <FormControl fullWidth>
-            <InputLabel id="session-date-select-label">Session Dates</InputLabel>
-            <Select
-              labelId="session-date-label"
-              id="session-date-select"
-              value={sessionDate}
-              label="Session Date"
-              onChange={handleChange}
-            >
-              {
-                selectableDates.map((dateOpt) =>
-                  <MenuItem value={dateOpt}>{dateOpt}</MenuItem>
-                )
-              }
-            </Select>
-          </FormControl>
-        </Box>
+        <div className="selector-container">
+          <h2>Daily Session Data: </h2>
+          <Box className="selector-width">
+            <FormControl fullWidth size="small">
+              <InputLabel>Session Dates</InputLabel>
+              <Select
+                labelId="session-date-label"
+                value={sessionDate}
+                label="Session Date"
+                onChange={handleChange}
+                MenuProps={MenuProps}
+              >
+                {
+                  selectableDates.map((dateOpt) =>
+                    <MenuItem value={dateOpt}>{dateOpt}</MenuItem>
+                  )
+                }
+              </Select>
+            </FormControl>
+          </Box>
+        </div>
 
         {
           selectedDaySessions.length > 0 && (

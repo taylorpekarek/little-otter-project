@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import SessionInfoCard from './Components/SessionInfoCard';
 import { sessionInfoAPI } from './API/SessionAPI';
 import { SessionInfo } from './API/SessionInfo';
+import SessionsChart from './Components/SessionsChart';
 
 const theme = createTheme({
   palette: {
@@ -78,7 +79,8 @@ function App() {
         {
           !loading && (
             <div className='container'>
-            <SessionInfoCard sessionsList={sessionData}></SessionInfoCard>
+              <SessionInfoCard sessionsList={sessionData}></SessionInfoCard>
+              <SessionsChart sessionsList={sessionData}></SessionsChart>
             </div>
           )
         }

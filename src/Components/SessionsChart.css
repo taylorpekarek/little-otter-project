@@ -1,0 +1,11 @@
+.chart-containers {
+    min-height: 400px;
+    margin: 20px;
+    width: 45%;
+}
+
+.page-section {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%
+}

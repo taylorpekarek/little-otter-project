@@ -1,81 +1,98 @@
-import React from "react";
-import { SessionDayInfo, SessionInfo } from "./SessionInfo";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export interface Props {
+import { SessionInfo } from "./SessionInfo";
+import SessionDayAverages from "./SessionDayAverages";
+import { useEffect } from 'react';
+
+export interface SessionInfoCardProps {
   sessionsList: SessionInfo[];
 }
 
+function SessionInfoCard({ sessionsList }: SessionInfoCardProps) {
+  const [sessionDate, setSessionDate] = React.useState('');
+  const selectableDates = getAllSessionStartDates(sessionsList);
+  const [selectedDaySessions, setSelectedDaySessions] = React.useState<SessionInfo[]>([]);
+  const [selectedDayPatientSessions, setSelectedDayPatientSessions] = React.useState<SessionInfo[]>([]);
 
-class SessionInfoCard extends React.Component<Props> {
-    sessionData = this.props.sessionsList;
-    selectableDates: string[] = [];
-    selectedDaySessions: SessionInfo[] = [];
-
-    render() {
-
-        this.getSessionsFromSelectedDay('2/2/2015');
-
-        return (
-            this.selectedDaySessions.map((item: SessionInfo) =>
-                <div className="container">
-                    <p>Session Duration: {item.sessionDuration}</p>
-                    <p>Start Time: {item.startTime.toLocaleDateString()} {item.startTime.toLocaleTimeString()}</p>
-                    <p>Stop Time: {item.stopTime.toLocaleDateString()} {item.stopTime.toLocaleTimeString()}</p>
-                    <p>Clinic ID: {item.clinicId}</p>
-                    <p>Clinic Name: {item.clinicName}</p>
-                    <p>Clinic Latitude: {item.clinicLatitude}</p>
-                    <p>Clinic Longitude: {item.clinicLongitude}</p>
-                    <p>Provider ID: {item.providerId}</p>
-                    <p>User Type: {item.userType}</p>
-                    <p>Birth Year: {item.birthYear}</p>
-                    <p>Gender: {item.gender}</p>
-                    <p>Distance: {item.distance}</p>
-                </div>
-            )
-        );
+  const handleChange = (event: SelectChangeEvent) => {
+    if(event.target.value !== sessionDate) {
+      setSessionDate(event.target.value as string);
     }
+  };
 
-  getAllSessionStartDates(): void {
+  useEffect(() => {
+    setSelectedDaySessions(getSessionsFromSelectedDay(sessionsList, sessionDate));
+  }, [sessionDate]);
 
-    this.selectedDaySessions.forEach(s => {
-        const date = s.startTime.toLocaleDateString();
-        const match = this.selectableDates.includes(date);
-        if  (!match) {
-            this.selectableDates.push(date);
+  useEffect(() => {
+    setSelectedDayPatientSessions(getPatientSessionsFromSelectedDay(selectedDaySessions));
+  }, [selectedDaySessions]);
+
+
+    return (
+      <div>
+
+        <Box sx={{ maxWidth: 150 }}>
+          <FormControl fullWidth>
+            <InputLabel id="session-date-select-label">Session Dates</InputLabel>
+            <Select
+              labelId="session-date-label"
+              id="session-date-select"
+              value={sessionDate}
+              label="Session Date"
+              onChange={handleChange}
+            >
+              {
+                selectableDates.map((dateOpt) =>
+                  <MenuItem value={dateOpt}>{dateOpt}</MenuItem>
+                )
+              }
+            </Select>
+          </FormControl>
+        </Box>
+
+        {
+          selectedDaySessions.length > 0 && (
+            <SessionDayAverages
+              daySessions={selectedDaySessions} 
+              patientDaySessions={selectedDayPatientSessions}
+            ></SessionDayAverages>
+          )
         }
-    });
-  }
 
-  getAllSessionStopDates(): void {
-    const dateSelections: string[] = [];
+      </div>
+    );
+}
 
-    this.sessionData.forEach(s => {
-        const date = s.stopTime.toLocaleDateString();
-        const match = dateSelections.includes(date);
-        if  (!match) {
-            dateSelections.push(date);
-        }
-    });
-  }
+// Gets all the start dates from the data set to create a list for the user's to select from
+function getAllSessionStartDates(sessionsList: SessionInfo[]): string[] {
+  const dates: string[] = [];
 
-  getSessionsFromSelectedDay(date: string): void {
-    this.selectedDaySessions = this.sessionData.filter(s => s.startTime.toLocaleDateString() === date);
-  }
+  sessionsList.forEach(s => {
+      const date = s.startTime.toLocaleDateString();
 
-  calculateDayData(): SessionDayInfo {
-    const data: SessionDayInfo = {
-        numberOfSessions: this.selectedDaySessions.length,
-        avgSessionLength: 0,
-        avgPatiendTravelDistance: 0,
-        avgPatientAge: 0
-    };
+      if (!dates.includes(date)) {
+        dates.push(date);
+      }
+  });
 
-    data.avgSessionLength = this.selectedDaySessions.reduce((total, next) => total + next.sessionDuration, 0) / this.selectedDaySessions.length;
+  return dates;
+}
 
+// Gets all the sessions that occurred on the selected day
+function getSessionsFromSelectedDay(sessionsList: SessionInfo[], date: string): SessionInfo[] {
+  return sessionsList.filter(s => (s.startTime.toLocaleDateString() === date));
+}
 
-    return data;
-
-  }
+// Gets all the PATIENT sessions that occurred on the selected day
+function getPatientSessionsFromSelectedDay(selectedDaySessions: SessionInfo[]): SessionInfo[] {
+  const x = selectedDaySessions.filter(s => s.userType === 'Patient');
+  return x;
 }
 
 export default SessionInfoCard;

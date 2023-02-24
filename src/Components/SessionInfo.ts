@@ -29,9 +29,10 @@ export class SessionInfo {
 }
 
 export interface SessionDayInfo {
+    sessionDay: string;
     numberOfSessions: number;
     avgSessionLength: number;
-    avgPatiendTravelDistance: number;
+    avgPatientTravelDistance: number;
     avgPatientAge: number;
 }
   

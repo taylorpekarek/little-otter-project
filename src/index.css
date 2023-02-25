@@ -7,3 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1, h2 {
+  text-align: center;
+  color: #283e4c;
+}

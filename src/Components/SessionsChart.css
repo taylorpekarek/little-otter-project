@@ -1,11 +1,14 @@
-.chart-containers {
-    min-height: 400px;
-    margin: 20px;
-    width: 45%;
+.session-page-section {
+    display: flex;
+    width: 100%;
 }
 
-.page-section {
-    display: flex;
-    flex-flow: row wrap;
-    width: 100%
+.session-chart-containers {
+    width: 45%;
+    margin: 20px auto;
+}
+
+.duration-chart-container {
+    width: 70%;
+    margin: 20px auto;
 }

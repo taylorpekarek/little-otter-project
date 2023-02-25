@@ -24,8 +24,9 @@ const MenuProps = {
 };
 
 function SessionInfoCard({ sessionsList }: SessionInfoCardProps) {
-  const [sessionDate, setSessionDate] = React.useState('');
   const selectableDates = getAllSessionStartDates(sessionsList);
+
+  const [sessionDate, setSessionDate] = React.useState(selectableDates[0]);
   const [selectedDaySessions, setSelectedDaySessions] = React.useState<SessionInfo[]>([]);
   const [selectedDayPatientSessions, setSelectedDayPatientSessions] = React.useState<SessionInfo[]>([]);
 
@@ -45,37 +46,34 @@ function SessionInfoCard({ sessionsList }: SessionInfoCardProps) {
 
 
     return (
-      <div>
+      <div className="center-content">
+
         <div className="selector-container">
-          <h2>Daily Session Data: </h2>
-          <Box className="selector-width">
-            <FormControl fullWidth size="small">
-              <InputLabel>Session Dates</InputLabel>
-              <Select
-                labelId="session-date-label"
-                value={sessionDate}
-                label="Session Date"
-                onChange={handleChange}
-                MenuProps={MenuProps}
-              >
-                {
-                  selectableDates.map((dateOpt) =>
-                    <MenuItem value={dateOpt}>{dateOpt}</MenuItem>
-                  )
-                }
-              </Select>
-            </FormControl>
-          </Box>
+          <div className="center-content">
+            <Box className="selector-width">
+              <FormControl fullWidth>
+                <InputLabel>Session Dates</InputLabel>
+                <Select
+                  value={sessionDate}
+                  label="Session Date"
+                  onChange={handleChange}
+                  MenuProps={MenuProps}
+                >
+                  {
+                    selectableDates.map((dateOpt) =>
+                      <MenuItem key={dateOpt} value={dateOpt}>{dateOpt}</MenuItem>
+                    )
+                  }
+                </Select>
+              </FormControl>
+            </Box>
+          </div>
         </div>
 
-        {
-          selectedDaySessions.length > 0 && (
-            <SessionDayAverages
-              daySessions={selectedDaySessions} 
-              patientDaySessions={selectedDayPatientSessions}
-            ></SessionDayAverages>
-          )
-        }
+        <SessionDayAverages
+          daySessions={selectedDaySessions} 
+          patientDaySessions={selectedDayPatientSessions}
+        ></SessionDayAverages>
 
       </div>
     );

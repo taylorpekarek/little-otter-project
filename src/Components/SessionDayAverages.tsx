@@ -32,10 +32,10 @@ function SessionDayAverages({ daySessions, patientDaySessions }: SessionDayAvera
   }, [dayToDayAvgs, daySessions, patientDaySessions]);
 
   return (
-    <Card variant="outlined" sx={{ maxWidth: 400 }}>
+    <Card variant="outlined" sx={{ minWidth: 400, width: 600 }}>
       <CardHeader 
-        title={'Sessions on ' + dayToDayAvgs.sessionDay} 
-        align='center' 
+        title={"Sessions Data - " + dayToDayAvgs.sessionDay} 
+        align="center" 
         titleTypographyProps={{ color: "white", fontWeight: 600, }}
       >
       </CardHeader>

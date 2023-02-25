@@ -10,3 +10,8 @@
 .header-text {
   color: #f2f2f2;
 }
+
+.container-flex {
+  display: flex;
+  margin-bottom: 40px;
+}

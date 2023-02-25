@@ -42,9 +42,6 @@ const timeLineChartOptions = {
         legend: {
             position: 'top' as const,
         },
-        title: {
-            display: false,
-        },
     },
     scales: {
         x: {
@@ -67,9 +64,6 @@ const durationLineChartOptions = {
     plugins: {
       legend: {
         position: 'top' as const,
-      },
-      title: {
-        display: false,
       },
     },
     scales: {
@@ -124,7 +118,7 @@ function SessionsChart({ sessionsList }: SessionsChartProps) {
         datasets: [
             {
                 fill: true,
-                label: 'Session Duration (min)',
+                label: 'Session Duration',
                 data: durationTimes.map(st => st.count),
                 borderColor: 'rgb(40, 62, 76)',
                 backgroundColor: 'rgba(40, 62, 76, 0.5)',
@@ -133,19 +127,21 @@ function SessionsChart({ sessionsList }: SessionsChartProps) {
     };
 
   return (
-    <div className='page-section'>
-        <div className='chart-containers'>
-            <h1>Hour of day a Session Starts</h1>
-            <Line options={timeLineChartOptions} data={startTimeLineChartData} />
+    <div>
+        <div className="session-page-section">
+            <div className="session-chart-containers">
+                <h2>Hour of day a Session Starts</h2>
+                <Line options={timeLineChartOptions} data={startTimeLineChartData} />
+            </div>
+            <div className="session-chart-containers">
+                <h2>Hour of day a Session Stops</h2>
+                <Line options={timeLineChartOptions} data={stopTimeLineChartData} />            
+            </div>
         </div>
-        <div className='chart-containers'>
-            <h1>Hour of day a Session Stops</h1>
-            <Line options={timeLineChartOptions} data={stopTimeLineChartData} />            
-        </div>
-        <div className='chart-containers'>
-            <h1>Duration of Sessions</h1>
-            <Line options={durationLineChartOptions} data={sessionDurationLineChartData} />            
-        </div>
+            <div className="duration-chart-container">
+                <h2>Duration of Sessions</h2>
+                <Line options={durationLineChartOptions} data={sessionDurationLineChartData} />            
+            </div>
     </div>
   );
 }
@@ -162,7 +158,7 @@ function getAllSessionStartTimes(sessionsList: SessionInfo[]): ChartData[] {
                 time: time,
                 count: 1 
             });
-        } else if (index >= 1) {
+        } else if (index >= 0) {
             times[index].count++;
         }
     });
@@ -182,7 +178,7 @@ function getAllSessionStopTimes(sessionsList: SessionInfo[]): ChartData[] {
                 time: time,
                 count: 1 
             });
-        } else if (index >= 1) {
+        } else if (index >= 0) {
             times[index].count++;
         }
     });
@@ -202,7 +198,7 @@ function getAllSessionDurations(sessionsList: SessionInfo[]): ChartData[] {
                 time: time,
                 count: 1 
             });
-        } else if (index >= 1) {
+        } else if (index >= 0) {
             times[index].count++;
         }
     });

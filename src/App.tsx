@@ -5,6 +5,7 @@ import SessionInfoCard from './Components/SessionInfoCard';
 import { sessionInfoAPI } from './API/SessionAPI';
 import { SessionInfo } from './API/SessionInfo';
 import SessionsChart from './Components/SessionsChart';
+import ClinicChart from './Components/ClinicChart';
 
 const theme = createTheme({
   palette: {
@@ -78,9 +79,17 @@ function App() {
 
         {
           !loading && (
-            <div className='container'>
-              <SessionInfoCard sessionsList={sessionData}></SessionInfoCard>
+            <div className="container">
+              <div className="container-flex">
+                  <SessionInfoCard sessionsList={sessionData}></SessionInfoCard>
+              </div>
+
               <SessionsChart sessionsList={sessionData}></SessionsChart>
+              
+              <div className="container-flex">
+                <ClinicChart sessionsList={sessionData}></ClinicChart>
+              </div>
+
             </div>
           )
         }

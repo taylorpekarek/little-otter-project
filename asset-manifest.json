@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/little-otter-project/static/css/main.362f1e08.css",
+    "main.js": "/little-otter-project/static/js/main.99192417.js",
+    "static/js/787.cb7df300.chunk.js": "/little-otter-project/static/js/787.cb7df300.chunk.js",
+    "index.html": "/little-otter-project/index.html",
+    "main.362f1e08.css.map": "/little-otter-project/static/css/main.362f1e08.css.map",
+    "main.99192417.js.map": "/little-otter-project/static/js/main.99192417.js.map",
+    "787.cb7df300.chunk.js.map": "/little-otter-project/static/js/787.cb7df300.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.362f1e08.css",
+    "static/js/main.99192417.js"
+  ]
+}

@@ -11,3 +11,8 @@ h1, h2 {
   text-align: center;
   color: #283e4c;
 }
+
+:root {
+  --spacing-md: 20px;
+  --spacing-lg: 30px;
+}
